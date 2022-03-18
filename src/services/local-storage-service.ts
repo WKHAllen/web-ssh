@@ -1,7 +1,7 @@
 /**
  * A service to handle local storage access.
  */
-export default class LocalStorageService {
+export default abstract class LocalStorageService {
   /**
    * Check if an item exists.
    *

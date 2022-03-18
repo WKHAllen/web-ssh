@@ -9,7 +9,7 @@ const connectionProfilesKey = "ConnectionProfiles";
 /**
  * An SSH connection profile.
  */
-interface ConnectionProfile {
+export interface ConnectionProfile {
   host: string;
   port: number;
   username: string;
@@ -19,7 +19,7 @@ interface ConnectionProfile {
 /**
  * A service to handle storage of SSH connections.
  */
-export default class ConnectionStorageService {
+export default abstract class ConnectionStorageService {
   /**
    * Get all SSH connection profiles.
    *
@@ -32,9 +32,10 @@ export default class ConnectionStorageService {
 
     if (profiles === null) {
       LocalStorageService.setItem(connectionProfilesKey, []);
+      return [];
+    } else {
+      return profiles;
     }
-
-    return profiles || [];
   }
 
   /**
