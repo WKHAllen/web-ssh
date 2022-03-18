@@ -18,7 +18,7 @@ export default class LocalStorageService {
    * @param key The item key.
    * @returns The item value.
    */
-  public static getItem<T>(key: string): T {
+  public static getItem<T>(key: string): T | null {
     return JSON.parse(localStorage.getItem(key) || "null");
   }
 
