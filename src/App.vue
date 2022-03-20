@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
+import AppHeader from "./components/AppHeader.vue";
 </script>
 
 <template>
   <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-    </nav>
+    <AppHeader />
   </header>
   <main>
     <RouterView />
@@ -17,11 +16,17 @@ import { RouterLink, RouterView } from "vue-router";
 @import "@/assets/base.css";
 
 #app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
+  flex-grow: 0;
 }
 
-nav {
+main {
+  flex-grow: 1;
+  padding: var(--padding);
 }
 </style>
