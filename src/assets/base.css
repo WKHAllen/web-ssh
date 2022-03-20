@@ -16,6 +16,9 @@
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
   --padding: 16px;
+  --border-radius: 8px;
+  --box-shadow: 0 0 16px rgba(63, 63, 63, 0.25);
+  --dialog-animation-duration: 0.15s;
 }
 
 /* semantic color variables for this project */
@@ -83,4 +86,23 @@ a,
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
+}
+
+.icon-button {
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--color-text);
+  font-size: 1.5rem;
+  border: 0;
+  border-radius: 100vmax;
+  padding: 0;
+  margin: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-button:hover {
+  cursor: pointer;
 }

@@ -11,8 +11,6 @@ import { RouterLink } from "vue-router";
 </template>
 
 <style scoped>
-@import "@/assets/base.css";
-
 .header {
   display: flex;
   flex-direction: row;
