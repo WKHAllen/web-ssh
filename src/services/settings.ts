@@ -21,54 +21,49 @@ const defaultSettings: AppSettings = {
 };
 
 /**
- * Access app settings.
+ * Get all app settings.
+ *
+ * @returns All app settings.
  */
-export default abstract class SettingsService {
-  /**
-   * Get all app settings.
-   *
-   * @returns All app settings.
-   */
-  public static getSettings(): AppSettings {
-    const settings = localStorageService.getItem<AppSettings>(appSettingsKey);
+export function getSettings(): AppSettings {
+  const settings = localStorageService.getItem<AppSettings>(appSettingsKey);
 
-    if (settings === null) {
-      localStorageService.setItem(appSettingsKey, defaultSettings);
-      return defaultSettings;
+  if (settings === null) {
+    localStorageService.setItem(appSettingsKey, defaultSettings);
+    return defaultSettings;
+  } else {
+    if (!utilService.structureEqual(settings, defaultSettings)) {
+      return utilService.mergeObjects(settings, defaultSettings);
     } else {
-      if (!utilService.structureEqual(settings, defaultSettings)) {
-        return utilService.mergeObjects(settings, defaultSettings);
-      } else {
-        return settings;
-      }
+      return settings;
     }
   }
+}
 
-  /**
-   * Get an option from settings.
-   *
-   * @param key The settings option key.
-   * @returns The settings option value.
-   */
-  public static getSettingsOption<T extends keyof AppSettings>(
-    key: T
-  ): AppSettings[T] {
-    const settings = this.getSettings();
-    return settings[key];
-  }
+/**
+ * Get an option from settings.
+ *
+ * @param key The settings option key.
+ * @returns The settings option value.
+ */
+export function getSettingsOption<T extends keyof AppSettings>(
+  key: T
+): AppSettings[T] {
+  const settings = getSettings();
+  return settings[key];
+}
 
-  /**
-   * Set an option in settings.
-   *
-   * @param key The settings option key.
-   * @param value The settings option value.
-   */
-  public static setSettingsOption<T extends keyof AppSettings>(
-    key: T,
-    value: AppSettings[T]
-  ): void {
-    const settings = this.getSettings();
-    settings[key] = value;
-    localStorageService.setItem(appSettingsKey, settings);
-  }
+/**
+ * Set an option in settings.
+ *
+ * @param key The settings option key.
+ * @param value The settings option value.
+ */
+export function setSettingsOption<T extends keyof AppSettings>(
+  key: T,
+  value: AppSettings[T]
+): void {
+  const settings = getSettings();
+  settings[key] = value;
+  localStorageService.setItem(appSettingsKey, settings);
 }
