@@ -87,14 +87,17 @@ watch(
   justify-content: center;
   align-items: center;
   opacity: 1;
-  transition: visibility 0s, opacity var(--dialog-animation-duration) linear;
+  transition: visibility 0s, opacity var(--dialog-animation-duration) linear,
+    height calc(2 * var(--dialog-animation-duration));
 }
 
 .dialog-container.dialog-container-hidden {
   visibility: hidden;
   opacity: 0;
+  height: 120%;
   transition: visibility var(--dialog-animation-duration),
-    opacity var(--dialog-animation-duration) linear;
+    opacity var(--dialog-animation-duration) linear,
+    height calc(2 * var(--dialog-animation-duration));
 }
 
 .dialog {
@@ -102,6 +105,8 @@ watch(
   background-color: var(--color-background-soft);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
+  max-height: 100%;
+  overflow: auto;
 }
 
 .dialog.dialog-small {

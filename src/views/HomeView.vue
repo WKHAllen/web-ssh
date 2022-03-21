@@ -11,7 +11,7 @@ const dialogOpen = ref(true);
   <button type="button" @click="dialogOpen = true">Open dialog</button>
   <DialogComponent
     :dialog-open="dialogOpen"
-    size="large"
+    size="small"
     @close-request="dialogOpen = false"
   >
     <template #dialog-header>
