@@ -1,11 +1,11 @@
 import { Client, type ClientChannel } from "ssh2";
 import { Observable, of } from "rxjs";
-import type { ConnectionProfile } from "./connection-storage-service";
+import type { ConnectionProfile } from "./connection-storage";
 
 /**
  * Perform SSH connections.
  */
-export default class SSHService {
+export class SSH {
   private connected = false;
   private readonly conn = new Client();
   private stream: ClientChannel | undefined;

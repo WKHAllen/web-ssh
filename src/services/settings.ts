@@ -1,5 +1,5 @@
-import LocalStorageService from "./local-storage-service";
-import UtilService from "./util-service";
+import * as localStorageService from "./local-storage";
+import * as utilService from "./util";
 
 /**
  * The local storage key for app settings.
@@ -30,14 +30,14 @@ export default abstract class SettingsService {
    * @returns All app settings.
    */
   public static getSettings(): AppSettings {
-    const settings = LocalStorageService.getItem<AppSettings>(appSettingsKey);
+    const settings = localStorageService.getItem<AppSettings>(appSettingsKey);
 
     if (settings === null) {
-      LocalStorageService.setItem(appSettingsKey, defaultSettings);
+      localStorageService.setItem(appSettingsKey, defaultSettings);
       return defaultSettings;
     } else {
-      if (!UtilService.structureEqual(settings, defaultSettings)) {
-        return UtilService.mergeObjects(settings, defaultSettings);
+      if (!utilService.structureEqual(settings, defaultSettings)) {
+        return utilService.mergeObjects(settings, defaultSettings);
       } else {
         return settings;
       }
@@ -69,6 +69,6 @@ export default abstract class SettingsService {
   ): void {
     const settings = this.getSettings();
     settings[key] = value;
-    LocalStorageService.setItem(appSettingsKey, settings);
+    localStorageService.setItem(appSettingsKey, settings);
   }
 }
