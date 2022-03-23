@@ -1,5 +1,4 @@
 import * as localStorageService from "./local-storage";
-import * as utilService from "./util";
 
 /**
  * The local storage key for connection profiles.
@@ -17,18 +16,25 @@ export interface ConnectionProfile {
 }
 
 /**
+ * All connection profiles as a mapping of names to profile info.
+ */
+export interface ConnectionProfiles {
+  [connectionName: string]: ConnectionProfile;
+}
+
+/**
  * Get all SSH connection profiles.
  *
  * @returns All connection profiles.
  */
-export function getProfiles(): ConnectionProfile[] {
-  const profiles = localStorageService.getItem<ConnectionProfile[]>(
+export function getProfiles(): ConnectionProfiles {
+  const profiles = localStorageService.getItem<ConnectionProfiles>(
     connectionProfilesKey
   );
 
   if (profiles === null) {
-    localStorageService.setItem(connectionProfilesKey, []);
-    return [];
+    localStorageService.setItem(connectionProfilesKey, {});
+    return {};
   } else {
     return profiles;
   }
@@ -37,11 +43,15 @@ export function getProfiles(): ConnectionProfile[] {
 /**
  * Add a new SSH connection profile.
  *
+ * @param profileName The name of the new profile.
  * @param profileInfo The new profile info.
  */
-export function addProfile(profileInfo: ConnectionProfile): void {
+export function addProfile(
+  profileName: string,
+  profileInfo: ConnectionProfile
+): void {
   const profiles = getProfiles();
-  profiles.push(profileInfo);
+  profiles[profileName] = profileInfo;
   localStorageService.setItem(connectionProfilesKey, profiles);
 }
 
@@ -50,10 +60,8 @@ export function addProfile(profileInfo: ConnectionProfile): void {
  *
  * @param profileInfo The profile info to remove.
  */
-export function removeProfile(profileInfo: ConnectionProfile): void {
-  let profiles = getProfiles();
-  profiles = profiles.filter(
-    (profile) => !utilService.equal(profile, profileInfo)
-  );
+export function removeProfile(profileName: string): void {
+  const profiles = getProfiles();
+  delete profiles[profileName];
   localStorageService.setItem(connectionProfilesKey, profiles);
 }
