@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import DialogComponent from "@/components/DialogComponent.vue";
 import TextInputControl from "@/components/controls/TextInputControl.vue";
+import NumberInputControl from "../components/controls/NumberInputControl.vue";
 import * as connectionStorage from "@/services/connection-storage";
 
 const connectionDialogOpen = ref(true);
@@ -48,10 +49,14 @@ const sshPassword = ref("");
         v-model="sshHost"
         :required="true"
       ></TextInputControl>
-      <div class="connection-control">
-        <label for="ssh-port">Port</label>
-        <input type="number" v-model="sshPort" id="ssh-port" />
-      </div>
+      <NumberInputControl
+        label="Port"
+        v-model="sshPort"
+        type="integer"
+        placeholder="default: 22"
+        :min="1"
+        :max="65535"
+      ></NumberInputControl>
       <div class="connection-control">
         <label for="ssh-username">Username</label>
         <input type="text" v-model="sshUsername" id="ssh-username" />

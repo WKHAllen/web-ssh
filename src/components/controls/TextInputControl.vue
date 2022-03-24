@@ -1,11 +1,12 @@
 <script setup lang="ts">
-type InputControlType = "email" | "password" | "text" | "url";
+type TextInputControlType = "email" | "password" | "text" | "url";
 
 defineProps<{
   modelValue: string;
   label: string;
-  type?: InputControlType;
+  type?: TextInputControlType;
   required?: boolean;
+  placeholder?: string;
   minLength?: number;
   maxLength?: number;
 }>();
@@ -24,12 +25,13 @@ defineEmits<{
   >
     <label :for="'text-input-' + label">{{ label }}</label>
     <input
-      class="form-control-inner text-input-control"
+      class="form-control-inner"
       :type="type ?? 'text'"
       :id="'text-input-' + label"
       :value="modelValue"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       :required="required ?? 'false'"
+      :placeholder="placeholder"
       :minlength="minLength"
       :maxlength="maxLength"
       autocomplete="off"
