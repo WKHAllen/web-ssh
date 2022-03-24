@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import DialogComponent from "../components/DialogComponent.vue";
-import * as connectionStorage from "../services/connection-storage";
+import DialogComponent from "@/components/DialogComponent.vue";
+import TextInputControl from "@/components/controls/TextInputControl.vue";
+import * as connectionStorage from "@/services/connection-storage";
 
 const connectionDialogOpen = ref(true);
 
@@ -42,10 +43,11 @@ const sshPassword = ref("");
           </option>
         </select>
       </div>
-      <div class="connection-control">
-        <label for="ssh-host">Host</label>
-        <input type="text" v-model="sshHost" id="ssh-host" />
-      </div>
+      <TextInputControl
+        label="Host"
+        v-model="sshHost"
+        :required="true"
+      ></TextInputControl>
       <div class="connection-control">
         <label for="ssh-port">Port</label>
         <input type="number" v-model="sshPort" id="ssh-port" />

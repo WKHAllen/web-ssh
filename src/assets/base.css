@@ -15,6 +15,9 @@
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
+  --green: hsla(160, 100%, 37%, 1);
+  --green-hover: hsla(160, 100%, 37%, 0.2);
+
   --padding: 16px;
   --border-radius: 8px;
   --box-shadow: 0 0 16px rgba(63, 63, 63, 0.25);
@@ -78,13 +81,13 @@ h6 {
 a,
 .green {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: var(--green);
   transition: 0.4s;
 }
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    background-color: var(--green-hover);
   }
 }
 
@@ -105,4 +108,42 @@ a,
 
 .icon-button:hover {
   cursor: pointer;
+}
+
+:root {
+  --control-height: 32px;
+  --control-border-radius: calc(var(--control-height) / 2);
+  --control-spacing: 16px;
+}
+
+.form-control {
+  width: 100%;
+  margin-top: calc(var(--control-spacing) / 2);
+  margin-bottom: calc(var(--control-spacing) / 2);
+}
+
+.form-control * {
+  width: 100%;
+}
+
+.form-control.form-control-required label::after {
+  content: "*";
+  margin-left: 4px;
+  color: var(--green);
+}
+
+.form-control-inner {
+  height: var(--control-height);
+  border-radius: var(--control-border-radius);
+  padding: 4px max(6px, calc(var(--control-border-radius) * 0.75));
+  background-color: var(--color-background-mute);
+  color: var(--color-text);
+  border: 2px solid var(--green);
+  outline: 0px solid var(--green-hover);
+  transition: all 0.1s linear;
+}
+
+.form-control-inner:focus {
+  color: var(--color-heading);
+  outline: 4px solid var(--green-hover);
 }
