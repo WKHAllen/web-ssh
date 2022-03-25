@@ -57,7 +57,7 @@ function validateKeyPress(event: KeyboardEvent): boolean {
     <input
       class="form-control-inner"
       type="text"
-      id="'number-input-' + label"
+      :id="'number-input-' + label"
       :value="modelValue"
       @input="$emit('update:modelValue', Number(($event.target as HTMLInputElement).value))"
       :required="required ?? 'false'"

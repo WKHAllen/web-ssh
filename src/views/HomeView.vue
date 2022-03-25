@@ -4,6 +4,7 @@ import DialogComponent from "@/components/DialogComponent.vue";
 import TextInputControl from "@/components/controls/TextInputControl.vue";
 import NumberInputControl from "../components/controls/NumberInputControl.vue";
 import * as connectionStorage from "@/services/connection-storage";
+import ButtonControl from "../components/controls/ButtonControl.vue";
 
 const connectionDialogOpen = ref(true);
 
@@ -19,9 +20,9 @@ const sshPassword = ref("");
 <template>
   <h1>Home title</h1>
   <p>Home paragraph</p>
-  <button type="button" @click="connectionDialogOpen = true">
-    Open dialog
-  </button>
+  <ButtonControl type="button" @click="connectionDialogOpen = true"
+    >Open dialog</ButtonControl
+  >
   <DialogComponent
     :dialog-open="connectionDialogOpen"
     size="small"
@@ -70,10 +71,12 @@ const sshPassword = ref("");
       ></TextInputControl>
     </template>
     <template #dialog-actions>
-      <button type="button" @click="connectionDialogOpen = false">
-        Cancel
-      </button>
-      <button type="button" @click="() => {}">Connect</button>
+      <ButtonControl
+        @click="connectionDialogOpen = false"
+        style-type="secondary"
+        >Cancel</ButtonControl
+      >
+      <ButtonControl @click="() => {}">Connect</ButtonControl>
     </template>
   </DialogComponent>
 </template>
