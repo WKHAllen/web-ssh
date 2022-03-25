@@ -113,17 +113,22 @@ a,
 :root {
   --control-height: 32px;
   --control-border-radius: calc(var(--control-height) / 2);
-  --control-spacing: 16px;
+  --control-spacing: 12px;
 }
 
 .form-control {
   width: 100%;
-  margin-top: calc(var(--control-spacing) / 2);
-  margin-bottom: calc(var(--control-spacing) / 2);
+  margin-top: var(--control-spacing);
+  margin-bottom: var(--control-spacing);
 }
 
 .form-control * {
   width: 100%;
+}
+
+.form-control label {
+  display: inline-block;
+  margin-bottom: 4px;
 }
 
 .form-control.form-control-required label::after {

@@ -57,14 +57,17 @@ const sshPassword = ref("");
         :min="1"
         :max="65535"
       ></NumberInputControl>
-      <div class="connection-control">
-        <label for="ssh-username">Username</label>
-        <input type="text" v-model="sshUsername" id="ssh-username" />
-      </div>
-      <div class="connection-control">
-        <label for="ssh-password">Password</label>
-        <input type="password" v-model="sshPassword" id="ssh-password" />
-      </div>
+      <TextInputControl
+        label="Username"
+        v-model="sshUsername"
+        :required="true"
+      ></TextInputControl>
+      <TextInputControl
+        label="Password"
+        type="password"
+        v-model="sshPassword"
+        :required="true"
+      ></TextInputControl>
     </template>
     <template #dialog-actions>
       <button type="button" @click="connectionDialogOpen = false">
