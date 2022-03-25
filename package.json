@@ -11,6 +11,10 @@
     "deploy": "npx serve -p ${PORT:-3000} dist"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-regular-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "rxjs": "^7.5.5",
     "ssh2": "^1.7.0",
     "vue": "^3.2.31",

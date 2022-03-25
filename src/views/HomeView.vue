@@ -3,8 +3,8 @@ import { ref } from "vue";
 import DialogComponent from "@/components/DialogComponent.vue";
 import TextInputControl from "@/components/controls/TextInputControl.vue";
 import NumberInputControl from "../components/controls/NumberInputControl.vue";
-import * as connectionStorage from "@/services/connection-storage";
 import ButtonControl from "../components/controls/ButtonControl.vue";
+import * as connectionStorage from "@/services/connection-storage";
 
 const connectionDialogOpen = ref(true);
 
