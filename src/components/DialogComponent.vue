@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, onUnmounted } from "vue";
 
 type DialogSize = "small" | "medium" | "large";
 
@@ -24,6 +24,12 @@ function clickOutsideEvent(event: MouseEvent): void {
 if (props.dialogOpen) {
   document.body.addEventListener("click", clickOutsideEvent);
 }
+
+onUnmounted(() => {
+  if (props.dialogOpen) {
+    document.body.removeEventListener("click", clickOutsideEvent);
+  }
+});
 
 watch(
   () => props.dialogOpen,

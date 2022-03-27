@@ -127,7 +127,7 @@ a,
   margin-bottom: var(--control-spacing);
 }
 
-.form-control * {
+.form-control > * {
   width: 100%;
 }
 
@@ -210,4 +210,89 @@ a,
 
 .form-button.form-button-outline:hover {
   background-color: rgba(127, 127, 127, 0.1);
+}
+
+.form-popup {
+  visibility: visible;
+  position: absolute;
+  z-index: 1;
+  opacity: 1;
+  background-color: var(--color-background);
+  transition: visibility 0s, opacity 0.1s linear;
+}
+
+.form-popup.form-popup-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.1s, opacity 0.1s linear;
+}
+
+.form-control-dropdown {
+  height: var(--control-height);
+  border-radius: var(--control-border-radius);
+  padding: 4px max(6px, calc(var(--control-border-radius) * 0.75));
+  background-color: var(--color-background-mute);
+  color: var(--color-text);
+  border: 2px solid var(--control-color-light);
+  outline: 0px solid var(--control-color-dark);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.1s linear;
+}
+
+.form-control-dropdown:hover {
+  border: 2px solid var(--control-color-lighter);
+}
+
+.form-control-dropdown:focus {
+  color: var(--color-heading);
+  border: 2px solid var(--control-color-lighter);
+  outline: 4px solid var(--control-color-dark);
+}
+
+.form-control-dropdown-selection {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.form-control-dropdown-icon {
+  flex-grow: 0;
+  transform: rotate(0deg);
+  transition: transform 0.1s ease;
+}
+
+.form-control-dropdown-icon.form-control-dropdown-icon-open {
+  transform: rotate(-180deg);
+}
+
+.form-control-dropdown-option {
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 4px 12px;
+  transition: all 0.1s linear;
+}
+
+.form-control-dropdown-option:hover {
+  background-color: rgba(127, 127, 127, 0.2);
+  color: var(--color-heading);
+}
+
+.form-control-dropdown-popup {
+  border-radius: 6px;
+  box-shadow: var(--box-shadow);
+  max-height: 300px;
+  overflow-y: auto;
+  transition: max-height 0.5s ease, visibility 0s, opacity 0.25s linear;
+}
+
+.form-control-dropdown-popup.form-control-dropdown-popup-hidden {
+  max-height: 0;
+  overflow: auto;
+  transition: max-height 0.5s ease, visibility 0.5s, opacity 0.25s linear 0.125s;
+}
+
+.form-control-dropdown-options-container {
+  padding: 6px 0;
 }

@@ -2,8 +2,9 @@
 import { ref } from "vue";
 import DialogComponent from "@/components/DialogComponent.vue";
 import TextInputControl from "@/components/controls/TextInputControl.vue";
-import NumberInputControl from "../components/controls/NumberInputControl.vue";
-import ButtonControl from "../components/controls/ButtonControl.vue";
+import NumberInputControl from "@/components/controls/NumberInputControl.vue";
+import ButtonControl from "@/components/controls/ButtonControl.vue";
+import DropdownControl from "@/components/controls/DropdownControl.vue";
 import * as connectionStorage from "@/services/connection-storage";
 
 const connectionDialogOpen = ref(true);
@@ -32,19 +33,12 @@ const sshPassword = ref("");
       <h1>SSH Connection</h1>
     </template>
     <template #dialog-body>
-      <div class="connection-control">
-        <label for="profile-select">Select profile</label>
-        <select v-model="selectedProfile" id="profile-select">
-          <option value="">New profile</option>
-          <option
-            v-for="profileName in Object.keys(connectionProfiles)"
-            :key="profileName"
-            :value="connectionProfiles[profileName]"
-          >
-            {{ profileName }}
-          </option>
-        </select>
-      </div>
+      <DropdownControl
+        label="Select profile"
+        v-model="selectedProfile"
+        :options="Object.keys(connectionProfiles)"
+        null-option="New profile"
+      ></DropdownControl>
       <TextInputControl
         label="Host"
         v-model="sshHost"
