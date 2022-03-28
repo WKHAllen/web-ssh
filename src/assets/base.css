@@ -91,6 +91,26 @@ a,
   }
 }
 
+::-webkit-scrollbar {
+  width: 18px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(127, 127, 127, 0.4);
+  border-radius: 100vmin;
+  border: 6px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  background-color: rgba(127, 127, 127, 0.5);
+}
+
 .icon-button {
   background-color: rgba(0, 0, 0, 0);
   color: var(--color-text);
@@ -260,7 +280,7 @@ a,
 .form-control-dropdown-icon {
   flex-grow: 0;
   transform: rotate(0deg);
-  transition: transform 0.1s ease;
+  transition: transform 0.25s ease-in-out;
 }
 
 .form-control-dropdown-icon.form-control-dropdown-icon-open {

@@ -16,17 +16,19 @@ import HeaderComponent from "@/components/HeaderComponent.vue";
 @import "@/assets/base.css";
 
 #app {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 header {
   flex-grow: 0;
+  box-shadow: var(--box-shadow);
 }
 
 main {
   flex-grow: 1;
   padding: var(--padding);
+  overflow-y: scroll;
 }
 </style>
