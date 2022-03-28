@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import DialogComponent from "@/components/DialogComponent.vue";
 import TextInputControl from "@/components/controls/TextInputControl.vue";
 import NumberInputControl from "@/components/controls/NumberInputControl.vue";
@@ -16,6 +16,24 @@ const sshHost = ref("");
 const sshPort = ref(22);
 const sshUsername = ref("");
 const sshPassword = ref("");
+
+watch(selectedProfile, (newSelectedProfile) => {
+  if (newSelectedProfile === "") {
+    sshHost.value = "";
+    sshPort.value = 22;
+    sshUsername.value = "";
+    sshPassword.value = "";
+  } else {
+    const profile = connectionProfiles[newSelectedProfile];
+
+    if (profile) {
+      sshHost.value = profile.host;
+      sshPort.value = profile.port;
+      sshUsername.value = profile.username;
+      sshPassword.value = profile.password;
+    }
+  }
+});
 </script>
 
 <template>
