@@ -134,6 +134,10 @@ a,
   cursor: pointer;
 }
 
+.error {
+  color: red;
+}
+
 :root {
   --control-height: 32px;
   --control-border-radius: calc(var(--control-height) / 2);

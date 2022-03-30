@@ -8,14 +8,21 @@ import DropdownControl from "@/components/controls/DropdownControl.vue";
 import * as connectionStorage from "@/services/connection-storage";
 
 const connectionDialogOpen = ref(true);
+const saveNewProfileDialogOpen = ref(false);
+const editProfileDialogOpen = ref(false);
 
-const connectionProfiles = connectionStorage.getProfiles();
+let connectionProfiles = connectionStorage.getProfiles();
 
 const selectedProfile = ref("");
 const sshHost = ref("");
 const sshPort = ref(22);
 const sshUsername = ref("");
 const sshPassword = ref("");
+
+const connectionInfoError = ref("");
+
+const newProfileName = ref("");
+const newProfileError = ref("");
 
 watch(selectedProfile, (newSelectedProfile) => {
   if (newSelectedProfile === "") {
@@ -34,6 +41,69 @@ watch(selectedProfile, (newSelectedProfile) => {
     }
   }
 });
+
+function validateConnectionInfo(): boolean {
+  if (sshHost.value === "") {
+    connectionInfoError.value = "SSH host is required";
+    return false;
+  } else if (sshPort.value < 0 || sshPort.value > 65535) {
+    connectionInfoError.value = "SSH port must be between 1 and 65535";
+    return false;
+  } else if (sshUsername.value === "") {
+    connectionInfoError.value = "SSH username is required";
+    return false;
+  }
+
+  connectionInfoError.value = "";
+  return true;
+}
+
+function sshConnect(): void {
+  // TODO: perform SSH connection
+}
+
+function connectClicked(): void {
+  if (validateConnectionInfo()) {
+    if (selectedProfile.value === "") {
+      saveNewProfileDialogOpen.value = true;
+    } else {
+      const profile = connectionProfiles[selectedProfile.value];
+
+      if (profile) {
+        if (
+          sshHost.value !== profile.host ||
+          sshPort.value !== profile.port ||
+          sshUsername.value !== profile.username ||
+          sshPassword.value !== profile.password
+        ) {
+          editProfileDialogOpen.value = true;
+        } else {
+          connectionDialogOpen.value = false;
+          sshConnect();
+        }
+      }
+    }
+  }
+}
+
+function saveNewProfileClicked(): void {
+  if (connectionProfiles[newProfileName.value] === undefined) {
+    newProfileError.value = "";
+    connectionStorage.addProfile(newProfileName.value, {
+      host: sshHost.value,
+      port: sshPort.value,
+      username: sshUsername.value,
+      password: sshPassword.value,
+    });
+    connectionProfiles = connectionStorage.getProfiles();
+    saveNewProfileDialogOpen.value = false;
+    connectionDialogOpen.value = false;
+    sshConnect();
+  } else {
+    newProfileError.value =
+      "A connection profile with this name already exists";
+  }
+}
 </script>
 
 <template>
@@ -42,6 +112,7 @@ watch(selectedProfile, (newSelectedProfile) => {
   <ButtonControl type="button" @click="connectionDialogOpen = true"
     >Open dialog</ButtonControl
   >
+
   <DialogComponent
     :dialog-open="connectionDialogOpen"
     size="small"
@@ -79,8 +150,10 @@ watch(selectedProfile, (newSelectedProfile) => {
         label="Password"
         type="password"
         v-model="sshPassword"
-        :required="true"
       ></TextInputControl>
+      <small v-if="connectionInfoError" class="error">{{
+        connectionInfoError
+      }}</small>
     </template>
     <template #dialog-actions>
       <ButtonControl
@@ -88,7 +161,39 @@ watch(selectedProfile, (newSelectedProfile) => {
         style-type="secondary"
         >Cancel</ButtonControl
       >
-      <ButtonControl @click="() => {}">Connect</ButtonControl>
+      <ButtonControl @click="connectClicked()">Connect</ButtonControl>
+    </template>
+  </DialogComponent>
+
+  <DialogComponent
+    :dialog-open="saveNewProfileDialogOpen"
+    size="medium"
+    @close-request="saveNewProfileDialogOpen = false"
+  >
+    <template #dialog-header>
+      <h1>Save New Profile</h1>
+    </template>
+    <template #dialog-body>
+      <p>
+        Would you like to save this SSH configuration as a new profile? If so,
+        enter a name for the new profile below.
+      </p>
+      <TextInputControl
+        label="Profile name"
+        v-model="newProfileName"
+        :required="true"
+      ></TextInputControl>
+      <small v-if="newProfileError !== ''" class="error">{{
+        newProfileError
+      }}</small>
+    </template>
+    <template #dialog-actions>
+      <ButtonControl
+        @click="saveNewProfileDialogOpen = false"
+        style-type="secondary"
+        >Cancel</ButtonControl
+      >
+      <ButtonControl @click="saveNewProfileClicked()">Save</ButtonControl>
     </template>
   </DialogComponent>
 </template>
