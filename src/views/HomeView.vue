@@ -5,6 +5,7 @@ import TextInputControl from "@/components/controls/TextInputControl.vue";
 import NumberInputControl from "@/components/controls/NumberInputControl.vue";
 import ButtonControl from "@/components/controls/ButtonControl.vue";
 import DropdownControl from "@/components/controls/DropdownControl.vue";
+import ErrorControl from "@/components/controls/ErrorControl.vue";
 import * as connectionStorage from "@/services/connection-storage";
 
 const connectionDialogOpen = ref(true);
@@ -151,9 +152,7 @@ function saveNewProfileClicked(): void {
         type="password"
         v-model="sshPassword"
       ></TextInputControl>
-      <small v-if="connectionInfoError" class="error">{{
-        connectionInfoError
-      }}</small>
+      <ErrorControl :message="connectionInfoError"></ErrorControl>
     </template>
     <template #dialog-actions>
       <ButtonControl
@@ -183,9 +182,7 @@ function saveNewProfileClicked(): void {
         v-model="newProfileName"
         :required="true"
       ></TextInputControl>
-      <small v-if="newProfileError !== ''" class="error">{{
-        newProfileError
-      }}</small>
+      <ErrorControl :message="newProfileError"></ErrorControl>
     </template>
     <template #dialog-actions>
       <ButtonControl
