@@ -1,49 +1,26 @@
 <script setup lang="ts">
-import { ref, watch, onUnmounted } from "vue";
+import { ref } from "vue";
 import IconControl from "./IconControl.vue";
 import PopupControl from "./PopupControl.vue";
 
-const props = defineProps<{
+defineProps<{
   modelValue: string;
   label: string;
   options: string[];
   nullOption?: string;
   required?: boolean;
+  menu?: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: "update:modelValue", value: typeof props.options[0]): void;
+  (e: "update:modelValue", value: string): void;
 }>();
 
 const dropdownOpen = ref(false);
 const dropdownButton = ref(null);
 const dropdownOptionsRef = ref(null);
 
-function clickEvent(event: MouseEvent): void {
-  if (
-    !(dropdownOptionsRef.value as unknown as HTMLElement).contains(
-      event.target as HTMLElement
-    )
-  ) {
-    dropdownOpen.value = false;
-  }
-}
-
-onUnmounted(() => {
-  if (dropdownOpen.value) {
-    document.body.removeEventListener("click", clickEvent);
-  }
-});
-
-watch(dropdownOpen, (isOpen) => {
-  if (isOpen) {
-    setTimeout(() => {
-      document.body.addEventListener("click", clickEvent);
-    }, 1);
-  } else {
-    document.body.removeEventListener("click", clickEvent);
-  }
-});
+const menuOpen = ref(false);
 
 function selectItem(option: string): void {
   dropdownOpen.value = false;
@@ -59,7 +36,24 @@ function selectItem(option: string): void {
       'form-control-required': required ?? false,
     }"
   >
-    <label :for="'dropdown-' + label">{{ label }}</label>
+    <span class="form-control-label">
+      <label :for="'dropdown-' + label">{{ label }}</label>
+      <button
+        v-if="menu ?? false"
+        class="icon-button"
+        type="button"
+        @click="menuOpen = !menuOpen"
+      >
+        <IconControl icon="ellipsis"></IconControl>
+      </button>
+      <PopupControl
+        :popup-open="menuOpen"
+        @click-off="menuOpen = false"
+        class="form-menu"
+      >
+        <slot name="menu"></slot>
+      </PopupControl>
+    </span>
     <button
       class="form-control-dropdown"
       :id="'dropdown-' + label"
@@ -81,6 +75,7 @@ function selectItem(option: string): void {
     </button>
     <PopupControl
       :popup-open="dropdownOpen"
+      @click-off="dropdownOpen = false"
       :class="{
         'form-control-dropdown-popup': true,
         'form-control-dropdown-popup-hidden': !dropdownOpen,

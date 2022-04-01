@@ -128,7 +128,10 @@ function saveNewProfileClicked(): void {
         v-model="selectedProfile"
         :options="Object.keys(connectionProfiles)"
         null-option="New profile"
-      ></DropdownControl>
+        :menu="true"
+      >
+        <template #menu>Menu here</template>
+      </DropdownControl>
       <TextInputControl
         label="Host"
         v-model="sshHost"

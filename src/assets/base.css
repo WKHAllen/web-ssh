@@ -175,6 +175,20 @@ a,
   color: var(--control-color-lighter);
 }
 
+.form-control-label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.form-control-label label {
+  flex-grow: 1;
+}
+
+.form-control-label button {
+  flex-grow: 0;
+}
+
 .form-control-inner {
   height: var(--control-height);
   border-radius: var(--control-border-radius);
@@ -319,4 +333,11 @@ a,
 
 .form-control-dropdown-options-container {
   padding: 6px 0;
+}
+
+.form-menu {
+  position: absolute;
+  top: 32px;
+  right: 0;
+  border-radius: var(--border-radius);
 }

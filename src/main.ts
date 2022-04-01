@@ -3,9 +3,9 @@ import App from "./App.vue";
 import router from "./router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faAngleDown);
+library.add(faAngleDown, faEllipsis);
 
 const app = createApp(App);
 
