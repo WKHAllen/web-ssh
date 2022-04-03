@@ -335,9 +335,43 @@ a,
   padding: 6px 0;
 }
 
-.form-menu {
+.form-menu-popup {
   position: absolute;
-  top: 32px;
+  top: 24px;
   right: 0;
-  border-radius: var(--border-radius);
+  border-radius: 6px;
+}
+
+.form-menu-button-open {
+  color: var(--color-heading);
+}
+
+.form-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+  max-width: 300px;
+}
+
+.form-menu-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.1s linear;
+}
+
+.form-menu-item:hover {
+  background-color: rgba(127, 127, 127, 0.2);
+  color: var(--color-heading);
+}
+
+.form-menu-item .form-menu-item-icon {
+  flex-grow: 0;
+  padding-right: 6px;
+}
+
+.form-menu-item .form-menu-item-label {
+  flex-grow: 1;
 }

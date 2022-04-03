@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type IconType = "solid" | "regular";
+import type { IconType } from "@/types/components.types";
 
 defineProps<{
   type?: IconType;

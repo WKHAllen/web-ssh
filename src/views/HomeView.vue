@@ -5,6 +5,8 @@ import TextInputControl from "@/components/controls/TextInputControl.vue";
 import NumberInputControl from "@/components/controls/NumberInputControl.vue";
 import ButtonControl from "@/components/controls/ButtonControl.vue";
 import DropdownControl from "@/components/controls/DropdownControl.vue";
+import MenuControl from "@/components/controls/MenuControl.vue";
+import MenuItemControl from "@/components/controls/MenuItemControl.vue";
 import ErrorControl from "@/components/controls/ErrorControl.vue";
 import * as connectionStorage from "@/services/connection-storage";
 
@@ -105,6 +107,16 @@ function saveNewProfileClicked(): void {
       "A connection profile with this name already exists";
   }
 }
+
+function renameSelectedProfile(): void {
+  // TODO: open rename dialog
+  console.log("rename");
+}
+
+function deleteSelectedProfile(): void {
+  // TODO: open delete confirmation dialog
+  console.log("delete");
+}
 </script>
 
 <template>
@@ -128,9 +140,22 @@ function saveNewProfileClicked(): void {
         v-model="selectedProfile"
         :options="Object.keys(connectionProfiles)"
         null-option="New profile"
-        :menu="true"
+        :menu="selectedProfile !== ''"
       >
-        <template #menu>Menu here</template>
+        <template #menu>
+          <MenuControl>
+            <MenuItemControl
+              icon="pen-to-square"
+              label="Rename hahahha whoa this should be pretty big so that I can get the chance to wordwrap"
+              @click="renameSelectedProfile()"
+            ></MenuItemControl>
+            <MenuItemControl
+              icon="trash"
+              label="Delete"
+              @click="deleteSelectedProfile()"
+            ></MenuItemControl>
+          </MenuControl>
+        </template>
       </DropdownControl>
       <TextInputControl
         label="Host"

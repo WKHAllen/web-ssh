@@ -2,8 +2,7 @@
 import { ref } from "vue";
 import IconControl from "./IconControl.vue";
 import PopupControl from "./PopupControl.vue";
-
-type NumberInputControlType = "integer" | "decimal";
+import type { NumberInputControlType } from "@/types/components.types";
 
 const props = defineProps<{
   modelValue: number;
@@ -64,7 +63,7 @@ function validateKeyPress(event: KeyboardEvent): boolean {
       <label :for="'number-input-' + label">{{ label }}</label>
       <button
         v-if="menu ?? false"
-        class="icon-button"
+        :class="{ 'icon-button': true, 'form-menu-button-open': menuOpen }"
         type="button"
         @click="menuOpen = !menuOpen"
       >
@@ -73,7 +72,7 @@ function validateKeyPress(event: KeyboardEvent): boolean {
       <PopupControl
         :popup-open="menuOpen"
         @click-off="menuOpen = false"
-        class="form-menu"
+        class="form-menu-popup"
       >
         <slot name="menu"></slot>
       </PopupControl>

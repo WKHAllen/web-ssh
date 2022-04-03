@@ -1,6 +1,8 @@
 <script setup lang="ts">
-type ButtonControlType = "button" | "submit";
-type ButtonStyleType = "primary" | "secondary" | "outline";
+import type {
+  ButtonControlType,
+  ButtonStyleType,
+} from "@/types/components.types";
 
 const props = defineProps<{
   type?: ButtonControlType;

@@ -2,8 +2,7 @@
 import { ref } from "vue";
 import IconControl from "./IconControl.vue";
 import PopupControl from "./PopupControl.vue";
-
-type TextInputControlType = "email" | "password" | "text" | "url";
+import type { TextInputControlType } from "@/types/components.types";
 
 defineProps<{
   modelValue: string;
@@ -34,7 +33,7 @@ const menuOpen = ref(false);
       <label :for="'text-input-' + label">{{ label }}</label>
       <button
         v-if="menu ?? false"
-        class="icon-button"
+        :class="{ 'icon-button': true, 'form-menu-button-open': menuOpen }"
         type="button"
         @click="menuOpen = !menuOpen"
       >
@@ -43,7 +42,7 @@ const menuOpen = ref(false);
       <PopupControl
         :popup-open="menuOpen"
         @click-off="menuOpen = false"
-        class="form-menu"
+        class="form-menu-popup"
       >
         <slot name="menu"></slot>
       </PopupControl>

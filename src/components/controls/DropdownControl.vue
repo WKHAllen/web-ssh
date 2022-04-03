@@ -40,7 +40,7 @@ function selectItem(option: string): void {
       <label :for="'dropdown-' + label">{{ label }}</label>
       <button
         v-if="menu ?? false"
-        class="icon-button"
+        :class="{ 'icon-button': true, 'form-menu-button-open': menuOpen }"
         type="button"
         @click="menuOpen = !menuOpen"
       >
@@ -49,7 +49,7 @@ function selectItem(option: string): void {
       <PopupControl
         :popup-open="menuOpen"
         @click-off="menuOpen = false"
-        class="form-menu"
+        class="form-menu-popup"
       >
         <slot name="menu"></slot>
       </PopupControl>
