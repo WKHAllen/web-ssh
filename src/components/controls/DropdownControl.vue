@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import IconControl from "./IconControl.vue";
 import PopupControl from "./PopupControl.vue";
+import MenuControl from "./MenuControl.vue";
 
 defineProps<{
   modelValue: string;
@@ -20,8 +21,6 @@ const dropdownOpen = ref(false);
 const dropdownButton = ref(null);
 const dropdownOptionsRef = ref(null);
 
-const menuOpen = ref(false);
-
 function selectItem(option: string): void {
   dropdownOpen.value = false;
   (dropdownButton.value as unknown as HTMLElement).focus();
@@ -38,21 +37,9 @@ function selectItem(option: string): void {
   >
     <span class="form-control-label">
       <label :for="'dropdown-' + label">{{ label }}</label>
-      <button
-        v-if="menu ?? false"
-        :class="{ 'icon-button': true, 'form-menu-button-open': menuOpen }"
-        type="button"
-        @click="menuOpen = !menuOpen"
-      >
-        <IconControl icon="ellipsis"></IconControl>
-      </button>
-      <PopupControl
-        :popup-open="menuOpen"
-        @click-off="menuOpen = false"
-        class="form-menu-popup"
-      >
-        <slot name="menu"></slot>
-      </PopupControl>
+      <MenuControl v-if="menu">
+        <slot name="menu-items"></slot>
+      </MenuControl>
     </span>
     <button
       class="form-control-dropdown"

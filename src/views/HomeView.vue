@@ -5,7 +5,6 @@ import TextInputControl from "@/components/controls/TextInputControl.vue";
 import NumberInputControl from "@/components/controls/NumberInputControl.vue";
 import ButtonControl from "@/components/controls/ButtonControl.vue";
 import DropdownControl from "@/components/controls/DropdownControl.vue";
-import MenuControl from "@/components/controls/MenuControl.vue";
 import MenuItemControl from "@/components/controls/MenuItemControl.vue";
 import ErrorControl from "@/components/controls/ErrorControl.vue";
 import * as connectionStorage from "@/services/connection-storage";
@@ -142,19 +141,17 @@ function deleteSelectedProfile(): void {
         null-option="New profile"
         :menu="selectedProfile !== ''"
       >
-        <template #menu>
-          <MenuControl>
-            <MenuItemControl
-              icon="pen-to-square"
-              label="Rename hahahha whoa this should be pretty big so that I can get the chance to wordwrap"
-              @click="renameSelectedProfile()"
-            ></MenuItemControl>
-            <MenuItemControl
-              icon="trash"
-              label="Delete"
-              @click="deleteSelectedProfile()"
-            ></MenuItemControl>
-          </MenuControl>
+        <template #menu-items>
+          <MenuItemControl
+            icon="pen-to-square"
+            label="Rename"
+            @click="renameSelectedProfile()"
+          ></MenuItemControl>
+          <MenuItemControl
+            icon="trash"
+            label="Delete"
+            @click="deleteSelectedProfile()"
+          ></MenuItemControl>
         </template>
       </DropdownControl>
       <TextInputControl

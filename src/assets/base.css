@@ -181,12 +181,12 @@ a,
   align-items: flex-end;
 }
 
-.form-control-label label {
-  flex-grow: 1;
+.form-control-label * {
+  flex-grow: 0;
 }
 
-.form-control-label button {
-  flex-grow: 0;
+.form-control-label label {
+  flex-grow: 1;
 }
 
 .form-control-inner {
@@ -337,8 +337,8 @@ a,
 
 .form-menu-popup {
   position: absolute;
-  top: 24px;
-  right: 0;
+  top: 0;
+  right: 32px;
   border-radius: 6px;
 }
 
@@ -346,7 +346,7 @@ a,
   color: var(--color-heading);
 }
 
-.form-menu {
+.form-menu-container {
   display: flex;
   flex-direction: column;
   padding: 6px 0;

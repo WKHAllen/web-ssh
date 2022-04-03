@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import IconControl from "./IconControl.vue";
-import PopupControl from "./PopupControl.vue";
+import MenuControl from "./MenuControl.vue";
 import type { TextInputControlType } from "@/types/components.types";
 
 defineProps<{
@@ -18,8 +16,6 @@ defineProps<{
 defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
-
-const menuOpen = ref(false);
 </script>
 
 <template>
@@ -31,21 +27,9 @@ const menuOpen = ref(false);
   >
     <span class="form-control-label">
       <label :for="'text-input-' + label">{{ label }}</label>
-      <button
-        v-if="menu ?? false"
-        :class="{ 'icon-button': true, 'form-menu-button-open': menuOpen }"
-        type="button"
-        @click="menuOpen = !menuOpen"
-      >
-        <IconControl icon="ellipsis"></IconControl>
-      </button>
-      <PopupControl
-        :popup-open="menuOpen"
-        @click-off="menuOpen = false"
-        class="form-menu-popup"
-      >
-        <slot name="menu"></slot>
-      </PopupControl>
+      <MenuControl v-if="menu">
+        <slot name="menu-items"></slot>
+      </MenuControl>
     </span>
     <input
       class="form-control-inner"

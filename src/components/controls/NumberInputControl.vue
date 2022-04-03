@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import IconControl from "./IconControl.vue";
-import PopupControl from "./PopupControl.vue";
+import MenuControl from "./MenuControl.vue";
 import type { NumberInputControlType } from "@/types/components.types";
 
 const props = defineProps<{
@@ -18,8 +16,6 @@ const props = defineProps<{
 defineEmits<{
   (e: "update:modelValue", value: number): void;
 }>();
-
-const menuOpen = ref(false);
 
 function validateKeyPress(event: KeyboardEvent): boolean {
   const value = (event.target as HTMLInputElement).value;
@@ -61,21 +57,9 @@ function validateKeyPress(event: KeyboardEvent): boolean {
   >
     <span class="form-control-label">
       <label :for="'number-input-' + label">{{ label }}</label>
-      <button
-        v-if="menu ?? false"
-        :class="{ 'icon-button': true, 'form-menu-button-open': menuOpen }"
-        type="button"
-        @click="menuOpen = !menuOpen"
-      >
-        <IconControl icon="ellipsis"></IconControl>
-      </button>
-      <PopupControl
-        :popup-open="menuOpen"
-        @click-off="menuOpen = false"
-        class="form-menu-popup"
-      >
-        <slot name="menu"></slot>
-      </PopupControl>
+      <MenuControl v-if="menu">
+        <slot name="menu-items"></slot>
+      </MenuControl>
     </span>
     <input
       class="form-control-inner"

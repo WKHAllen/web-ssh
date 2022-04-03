@@ -8,13 +8,13 @@ defineProps<{
   label: string;
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
   (e: "click"): void;
 }>();
 </script>
 
 <template>
-  <div class="form-menu-item" @click="emit('click')">
+  <div class="form-menu-item" @click="$emit('click')">
     <div class="form-menu-item-icon">
       <IconControl :icon="icon" :iconType="iconType"></IconControl>
     </div>
