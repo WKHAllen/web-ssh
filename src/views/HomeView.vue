@@ -12,8 +12,10 @@ import * as connectionStorage from "@/services/connection-storage";
 const connectionDialogOpen = ref(true);
 const saveNewProfileDialogOpen = ref(false);
 const editProfileDialogOpen = ref(false);
+const renameProfileDialogOpen = ref(false);
+const deleteProfileDialogOpen = ref(false);
 
-let connectionProfiles = connectionStorage.getProfiles();
+const connectionProfiles = ref(connectionStorage.getProfiles());
 
 const selectedProfile = ref("");
 const sshHost = ref("");
@@ -26,6 +28,9 @@ const connectionInfoError = ref("");
 const newProfileName = ref("");
 const newProfileError = ref("");
 
+const updatedProfileName = ref("");
+const updatedProfileError = ref("");
+
 watch(selectedProfile, (newSelectedProfile) => {
   if (newSelectedProfile === "") {
     sshHost.value = "";
@@ -33,7 +38,7 @@ watch(selectedProfile, (newSelectedProfile) => {
     sshUsername.value = "";
     sshPassword.value = "";
   } else {
-    const profile = connectionProfiles[newSelectedProfile];
+    const profile = connectionProfiles.value[newSelectedProfile];
 
     if (profile) {
       sshHost.value = profile.host;
@@ -69,7 +74,7 @@ function connectClicked(): void {
     if (selectedProfile.value === "") {
       saveNewProfileDialogOpen.value = true;
     } else {
-      const profile = connectionProfiles[selectedProfile.value];
+      const profile = connectionProfiles.value[selectedProfile.value];
 
       if (profile) {
         if (
@@ -89,7 +94,7 @@ function connectClicked(): void {
 }
 
 function saveNewProfileClicked(): void {
-  if (connectionProfiles[newProfileName.value] === undefined) {
+  if (connectionProfiles.value[newProfileName.value] === undefined) {
     newProfileError.value = "";
     connectionStorage.addProfile(newProfileName.value, {
       host: sshHost.value,
@@ -97,7 +102,7 @@ function saveNewProfileClicked(): void {
       username: sshUsername.value,
       password: sshPassword.value,
     });
-    connectionProfiles = connectionStorage.getProfiles();
+    connectionProfiles.value = connectionStorage.getProfiles();
     saveNewProfileDialogOpen.value = false;
     connectionDialogOpen.value = false;
     sshConnect();
@@ -107,14 +112,53 @@ function saveNewProfileClicked(): void {
   }
 }
 
+function editProfileButtonClicked(): void {
+  connectionStorage.editProfile(selectedProfile.value, {
+    host: sshHost.value,
+    port: sshPort.value,
+    username: sshUsername.value,
+    password: sshPassword.value,
+  });
+  connectionProfiles.value = connectionStorage.getProfiles();
+  editProfileDialogOpen.value = false;
+  connectionDialogOpen.value = false;
+  sshConnect();
+}
+
 function renameSelectedProfile(): void {
-  // TODO: open rename dialog
-  console.log("rename");
+  updatedProfileName.value = selectedProfile.value;
+  renameProfileDialogOpen.value = true;
 }
 
 function deleteSelectedProfile(): void {
-  // TODO: open delete confirmation dialog
-  console.log("delete");
+  deleteProfileDialogOpen.value = true;
+}
+
+function renameProfileClicked(): void {
+  if (connectionProfiles.value[updatedProfileName.value] === undefined) {
+    updatedProfileError.value = "";
+    connectionStorage.renameProfile(
+      selectedProfile.value,
+      updatedProfileName.value
+    );
+    selectedProfile.value = updatedProfileName.value;
+    connectionProfiles.value = connectionStorage.getProfiles();
+    renameProfileDialogOpen.value = false;
+    connectionDialogOpen.value = false;
+    sshConnect();
+  } else {
+    updatedProfileError.value =
+      "A connection profile with this name already exists";
+  }
+}
+
+function deleteProfileClicked(): void {
+  connectionStorage.removeProfile(selectedProfile.value);
+  selectedProfile.value = "";
+  connectionProfiles.value = connectionStorage.getProfiles();
+  deleteProfileDialogOpen.value = false;
+  connectionDialogOpen.value = false;
+  sshConnect();
 }
 </script>
 
@@ -216,6 +260,81 @@ function deleteSelectedProfile(): void {
         >Cancel</ButtonControl
       >
       <ButtonControl @click="saveNewProfileClicked()">Save</ButtonControl>
+    </template>
+  </DialogComponent>
+
+  <DialogComponent
+    :dialog-open="editProfileDialogOpen"
+    size="medium"
+    @close-request="editProfileDialogOpen = false"
+  >
+    <template #dialog-header>
+      <h1>Edit Profile</h1>
+    </template>
+    <template #dialog-body>
+      <p>
+        The SSH configuration for this profile has changed. Would you like to
+        save the new configuration to this profile?
+      </p>
+    </template>
+    <template #dialog-actions>
+      <ButtonControl
+        @click="editProfileDialogOpen = false"
+        style-type="secondary"
+        >Cancel</ButtonControl
+      >
+      <ButtonControl @click="editProfileButtonClicked()">Save</ButtonControl>
+    </template>
+  </DialogComponent>
+
+  <DialogComponent
+    :dialog-open="renameProfileDialogOpen"
+    size="medium"
+    @close-request="renameProfileDialogOpen = false"
+  >
+    <template #dialog-header>
+      <h1>Rename Profile</h1>
+    </template>
+    <template #dialog-body>
+      <p>Type a new name for the SSH profile below.</p>
+      <TextInputControl
+        label="New profile name"
+        v-model="updatedProfileName"
+        :required="true"
+      ></TextInputControl>
+      <ErrorControl :message="updatedProfileError"></ErrorControl>
+    </template>
+    <template #dialog-actions>
+      <ButtonControl
+        @click="renameProfileDialogOpen = false"
+        style-type="secondary"
+        >Cancel</ButtonControl
+      >
+      <ButtonControl @click="renameProfileClicked()">Rename</ButtonControl>
+    </template>
+  </DialogComponent>
+
+  <DialogComponent
+    :dialog-open="deleteProfileDialogOpen"
+    size="medium"
+    @close-request="deleteProfileDialogOpen = false"
+  >
+    <template #dialog-header>
+      <h1>Delete Profile</h1>
+    </template>
+    <template #dialog-body>
+      <p>
+        Are you sure you want to delete the "{{ selectedProfile }}" SSH
+        connection profile?
+      </p>
+    </template>
+    <template #dialog-actions>
+      <ButtonControl
+        @click="deleteProfileDialogOpen = false"
+        style-type="secondary"
+        >Cancel</ButtonControl
+      >
+      <ButtonControl @click="deleteProfileClicked()">Delete</ButtonControl>
     </template>
   </DialogComponent>
 </template>

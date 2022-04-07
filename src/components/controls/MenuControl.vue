@@ -17,8 +17,8 @@ const emit = defineEmits<{
 
 const menuOpen = ref(false);
 
-watch(menuOpen, (newValue) => {
-  if (newValue) {
+watch(menuOpen, (isOpen) => {
+  if (isOpen) {
     emit("opened");
   } else {
     emit("closed");

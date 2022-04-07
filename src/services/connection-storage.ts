@@ -56,6 +56,35 @@ export function addProfile(
 }
 
 /**
+ * Edit an existing SSH connection profile.
+ *
+ * @param profileName The name of the profile.
+ * @param profileInfo The profile info.
+ */
+export function editProfile(
+  profileName: string,
+  profileInfo: ConnectionProfile
+): void {
+  addProfile(profileName, profileInfo);
+}
+
+/**
+ * Rename an existing SSH connection profile.
+ *
+ * @param oldProfileName The old name of the profile.
+ * @param newProfileName The new name of the profile.
+ */
+export function renameProfile(
+  oldProfileName: string,
+  newProfileName: string
+): void {
+  const profiles = getProfiles();
+  const profileInfo = profiles[oldProfileName];
+  removeProfile(oldProfileName);
+  addProfile(newProfileName, profileInfo);
+}
+
+/**
  * Remove an SSH connection profile.
  *
  * @param profileInfo The profile info to remove.
