@@ -9,7 +9,7 @@ import MenuItemControl from "@/components/controls/MenuItemControl.vue";
 import ErrorControl from "@/components/controls/ErrorControl.vue";
 import * as connectionStorage from "@/services/connection-storage";
 
-const connectionDialogOpen = ref(true);
+const connectionDialogOpen = ref(false);
 const saveNewProfileDialogOpen = ref(false);
 const editProfileDialogOpen = ref(false);
 const renameProfileDialogOpen = ref(false);
@@ -163,11 +163,15 @@ function deleteProfileClicked(): void {
 </script>
 
 <template>
-  <h1>Home title</h1>
-  <p>Home paragraph</p>
-  <ButtonControl type="button" @click="connectionDialogOpen = true"
-    >Open dialog</ButtonControl
-  >
+  <div class="home">
+    <div class="home-card">
+      <h1>Web SSH</h1>
+      <p>Connect to SSH via a web interface</p>
+      <ButtonControl type="button" @click="connectionDialogOpen = true"
+        >Connect</ButtonControl
+      >
+    </div>
+  </div>
 
   <DialogComponent
     :dialog-open="connectionDialogOpen"
@@ -340,11 +344,25 @@ function deleteProfileClicked(): void {
 </template>
 
 <style scoped>
-.connection-control {
-  width: 100%;
+.home {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.connection-control * {
-  width: 100%;
+.home-card {
+  text-align: center;
+  max-width: 400px;
+  padding: 16px;
+  font-size: 1.5em;
+}
+
+.home-card button {
+  font-size: 0.7em;
+}
+
+.home-card > *:not(:last-child) {
+  margin-bottom: 16px;
 }
 </style>

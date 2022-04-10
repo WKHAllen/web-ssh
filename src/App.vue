@@ -30,5 +30,6 @@ main {
   flex-grow: 1;
   padding: var(--padding);
   overflow-y: scroll;
+  display: flex;
 }
 </style>
