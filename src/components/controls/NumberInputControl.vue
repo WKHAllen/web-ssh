@@ -15,6 +15,7 @@ const props = defineProps<{
 
 defineEmits<{
   (e: "update:modelValue", value: number): void;
+  (e: "onEnter"): void;
 }>();
 
 function validateKeyPress(event: KeyboardEvent): boolean {
@@ -71,6 +72,7 @@ function validateKeyPress(event: KeyboardEvent): boolean {
       :placeholder="placeholder"
       autocomplete="off"
       @keydown="validateKeyPress($event) ? null : $event.preventDefault()"
+      @keyup.enter="$emit('onEnter')"
     />
   </div>
 </template>

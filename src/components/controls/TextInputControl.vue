@@ -15,6 +15,7 @@ defineProps<{
 
 defineEmits<{
   (e: "update:modelValue", value: string): void;
+  (e: "onEnter"): void;
 }>();
 </script>
 
@@ -42,6 +43,7 @@ defineEmits<{
       :minlength="minLength"
       :maxlength="maxLength"
       autocomplete="off"
+      @keyup.enter="$emit('onEnter')"
     />
   </div>
 </template>

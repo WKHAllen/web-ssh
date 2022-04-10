@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import router from "@/router";
 import DialogComponent from "@/components/DialogComponent.vue";
 import TextInputControl from "@/components/controls/TextInputControl.vue";
 import NumberInputControl from "@/components/controls/NumberInputControl.vue";
@@ -8,6 +9,7 @@ import DropdownControl from "@/components/controls/DropdownControl.vue";
 import MenuItemControl from "@/components/controls/MenuItemControl.vue";
 import ErrorControl from "@/components/controls/ErrorControl.vue";
 import * as connectionStorage from "@/services/connection-storage";
+import * as settings from "@/services/settings";
 
 const connectionDialogOpen = ref(false);
 const saveNewProfileDialogOpen = ref(false);
@@ -66,7 +68,14 @@ function validateConnectionInfo(): boolean {
 }
 
 function sshConnect(): void {
-  // TODO: perform SSH connection
+  settings.setSettingsOption("currentSSH", {
+    host: sshHost.value,
+    port: sshPort.value || 22,
+    username: sshUsername.value,
+    password: sshPassword.value,
+  });
+
+  router.push({ name: "ssh" });
 }
 
 function connectClicked(): void {
@@ -98,7 +107,7 @@ function saveNewProfileClicked(): void {
     newProfileError.value = "";
     connectionStorage.addProfile(newProfileName.value, {
       host: sshHost.value,
-      port: sshPort.value,
+      port: sshPort.value || 22,
       username: sshUsername.value,
       password: sshPassword.value,
     });
@@ -115,7 +124,7 @@ function saveNewProfileClicked(): void {
 function editProfileButtonClicked(): void {
   connectionStorage.editProfile(selectedProfile.value, {
     host: sshHost.value,
-    port: sshPort.value,
+    port: sshPort.value || 22,
     username: sshUsername.value,
     password: sshPassword.value,
   });
@@ -345,7 +354,6 @@ function deleteProfileClicked(): void {
 
 <style scoped>
 .home {
-  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;

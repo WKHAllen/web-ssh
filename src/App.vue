@@ -28,8 +28,11 @@ header {
 
 main {
   flex-grow: 1;
-  padding: var(--padding);
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
+}
+
+main > * {
+  flex-grow: 1;
 }
 </style>

@@ -11,6 +11,12 @@ const appSettingsKey = "AppSettings";
  */
 export interface AppSettings {
   fontSize: number;
+  currentSSH?: {
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+  };
 }
 
 /**

@@ -8,9 +8,10 @@ import {
   faEllipsis,
   faPenToSquare,
   faTrash,
+  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faAngleDown, faEllipsis, faPenToSquare, faTrash);
+library.add(faAngleDown, faEllipsis, faPenToSquare, faTrash, faPaperPlane);
 
 const app = createApp(App);
 
